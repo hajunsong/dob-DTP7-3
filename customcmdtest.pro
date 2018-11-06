@@ -13,5 +13,9 @@ INSTALLS += target
 DESTDIR = ../lib
 
 
-SOURCES += main.c
+SOURCES += main.c \
+    dob.cpp
+
+HEADERS += \
+    dob.h
 
