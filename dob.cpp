@@ -7,18 +7,22 @@ DOB::DOB(uint numbody)
 
     // read data
     start_time = 0;
+    end_time = 5;
     h = 0.001;
     g = -9.80665;
 
     double *A0_ptr = body[0].A0;
+    *(A0_ptr++) = -0.0166539163586037;	*(A0_ptr++) = 0.999861118108602;		*(A0_ptr++) = -0.000625751178838863;
+    *(A0_ptr++) = 0.999453663531293;	*(A0_ptr++) = 0.016664992446195;		*(A0_ptr++) = 0.0285421176622343;
+    *(A0_ptr++) = 0.0285485818176174;	*(A0_ptr++) = -0.000150071267905251;	*(A0_ptr) = -0.999592394906453;
+    double *r0_ptr = body[0].r0;
+    *(r0_ptr++) = -1.2606181693E-005;	*(r0_ptr++) = 7.0468655311E-004;	*(r0_ptr++) = 9.8114088257E-002;
     double *C01_ptr = body[0].C01;
-    *(A0_ptr++) = 0;	*(A0_ptr++) = 0;	*(A0_ptr++) = 1;
-    *(A0_ptr++) = 1;	*(A0_ptr++) = 0;	*(A0_ptr++) = 0;
-    *(A0_ptr++) = 0;	*(A0_ptr++) = 1;	*(A0_ptr) = 0;
-    *(C01_ptr++) = 1;	*(C01_ptr++) = 0;	*(C01_ptr++) = 0;
-    *(C01_ptr++) = 0;	*(C01_ptr++) = 1;	*(C01_ptr++) = 0;
-    *(C01_ptr++) = 0;	*(C01_ptr++) = 0;	*(C01_ptr) = 1;
-    memset(body[0].s01p, 0, sizeof(double) * 3);
+    *(C01_ptr++) = -0.0166539163382054;		*(C01_ptr++) = 0.999453663531633;	*(C01_ptr++) = 0.028548581817619;
+    *(C01_ptr++) = 0.999861118108942;		*(C01_ptr++) = 0.01666499242578;	*(C01_ptr++) = -0.000150071267613861;
+    *(C01_ptr++) = -0.00062575117796489;	*(C01_ptr++) = 0.0285421176622535;	*(C01_ptr++) = -0.999592394906453;
+    double *s01p_ptr = body[0].s01p;
+    *(s01p_ptr++) = 1.6046665738E-003;	*(s01p_ptr++) = -1.1277816472E-005;	*(s01p_ptr++) = -8.0873063368E-002;
 
     double *Jip_ptr, *rhoip_ptr, *Cii_ptr, *Cij_ptr, *sijp_ptr;
     switch (num_body) {
@@ -45,7 +49,7 @@ DOB::DOB(uint numbody)
         *(sijp_ptr++) = 0;	*(sijp_ptr++) = -0.8;	*(sijp_ptr++) = 0;
         body[5].K = 1500;
         goto CASE5;
-    CASE5: case 5:
+CASE5: case 5:
         // body 5 variable
         body[4].qi = 0;
         body[4].qi_dot = 0;
@@ -68,109 +72,109 @@ DOB::DOB(uint numbody)
         *(sijp_ptr++) = 0.7;	*(sijp_ptr++) = 0;	*(sijp_ptr++) = 0;
         body[4].K = 1500;
         goto CASE4;
-    CASE4: case 4:
+CASE4: case 4:
         // body 4 variable
         body[3].qi = 0;
-        body[3].qi_dot = 0;
-        body[3].mi = 15;
+        body[3].qi_dot = 1.745329252;
+        body[3].mi = 1.0;
         Jip_ptr = body[3].Jip;
-        *(Jip_ptr++) = 7;	*(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 7;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;	*(Jip_ptr) = 7;
+        *(Jip_ptr++) = 2.9776690613E-001;	*(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 1.9851127075E-001;	*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;					*(Jip_ptr) = 1.9851127075E-001;
         rhoip_ptr = body[3].rhoip;
-        *(rhoip_ptr++) = 0;	*(rhoip_ptr++) = 0.3;	*(rhoip_ptr++) = 0;
+        *(rhoip_ptr++) = 0;	*(rhoip_ptr++) = 0;	*(rhoip_ptr++) = 1.5E-002;
         Cii_ptr = body[3].Cii;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = -1;	*(Cii_ptr++) = 0;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = 0;	*(Cii_ptr++) = -1;
-        *(Cii_ptr++) = 1;	*(Cii_ptr++) = 0;	*(Cii_ptr) = 0;
+        *(Cii_ptr++) = -5.1034119673351e-12;	*(Cii_ptr++) = -5.10341196717883e-12;	*(Cii_ptr++) = 1;
+        *(Cii_ptr++) = 1.53102359017448e-11;	*(Cii_ptr++) = 1;						*(Cii_ptr++) = 5.10341196725696e-12;
+        *(Cii_ptr++) = -1;						*(Cii_ptr++) = 1.53102359017709e-11;	*(Cii_ptr) = -5.10341196725696e-12;
         Cij_ptr = body[3].Cij;
-        *(Cij_ptr++) = 0;	*(Cij_ptr++) = -1;	*(Cij_ptr++) = 0;
         *(Cij_ptr++) = 1;	*(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;
+        *(Cij_ptr++) = 0;	*(Cij_ptr++) = 1;	*(Cij_ptr++) = 0;
         *(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;	*(Cij_ptr) = 1;
         sijp_ptr = body[3].sijp;
-        *(sijp_ptr++) = 0;	*(sijp_ptr++) = 0.6;	*(sijp_ptr++) = 0;
+        *(sijp_ptr++) = 0;	*(sijp_ptr++) = 0;	*(sijp_ptr++) = 3.0E-002;
         body[3].K = 1500;
         goto CASE3;
-    CASE3: case 3:
+CASE3: case 3:
         // body 3 variable
         body[2].qi = 0;
         body[2].qi_dot = 0;
-        body[2].mi = 10;
+        body[2].mi = 5.4744153556;
         Jip_ptr = body[2].Jip;
-        *(Jip_ptr++) = 5;	*(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 5;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;	*(Jip_ptr) = 5;
+        *(Jip_ptr++) = 7.9248847783E-002;	*(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 7.9068985586E-002;	*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;					*(Jip_ptr) = 1.121114199E-002;
         rhoip_ptr = body[2].rhoip;
-        *(rhoip_ptr++) = -0.25;	*(rhoip_ptr++) = 0;	*(rhoip_ptr++) = 0;
+        *(rhoip_ptr++) = -7.7429032998E-003;	*(rhoip_ptr++) = 0.1250000069;	*(rhoip_ptr++) = 5.1742274065E-002;
         Cii_ptr = body[2].Cii;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = 0;	*(Cii_ptr++) = 1;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = -1;	*(Cii_ptr++) = 0;
-        *(Cii_ptr++) = 1;	*(Cii_ptr++) = 0;	*(Cii_ptr) = 0;
+        *(Cii_ptr++) = 0.703366121770584;	*(Cii_ptr++) = 0.706491212468702;		*(Cii_ptr++) = -0.0783981214692824;
+        *(Cii_ptr++) = 0.110872957629779;	*(Cii_ptr++) = -9.83988031674973e-05;	*(Cii_ptr++) = 0.993834582606231;
+        *(Cii_ptr++) = 0.702127684977479;	*(Cii_ptr++) = -0.707721807649149;		*(Cii_ptr) = -0.0783999806504246;
         Cij_ptr = body[2].Cij;
-        *(Cij_ptr++) = 0;	*(Cij_ptr++) = -1;	*(Cij_ptr++) = 0;
-        *(Cij_ptr++) = 1;	*(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;
-        *(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;	*(Cij_ptr) = 1;
+        *(Cij_ptr++) = -5.1034119673351e-12;	*(Cij_ptr++) = -1.53102359017448e-11;	*(Cij_ptr++) = -1;
+        *(Cij_ptr++) = 5.10341196717883e-12;	*(Cij_ptr++) = 1;						*(Cij_ptr++) = -1.53102359017709e-11;
+        *(Cij_ptr++) = 1;						*(Cij_ptr++) = -5.10341196725696e-12;	*(Cij_ptr) = -5.10341196725696e-12;
         sijp_ptr = body[2].sijp;
-        *(sijp_ptr++) = -0.5;	*(sijp_ptr++) = 0;	*(sijp_ptr++) = 0;
+        *(sijp_ptr++) = -0.1036;	*(sijp_ptr++) = 0.25;	*(sijp_ptr++) = 4.4E-002;
         body[2].K = 1500;
         goto CASE2;
-    CASE2: case 2:
+CASE2: case 2:
         // body 2 variable
         body[1].qi = 0;
         body[1].qi_dot = 0;
-        body[1].mi = 5;
+        body[1].mi = 0.817690667;
         Jip_ptr = body[1].Jip;
-        *(Jip_ptr++) = 3;	*(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 3;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;	*(Jip_ptr) = 3;
+        *(Jip_ptr++) = 8.6363165831E-003;	*(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 8.1094047045E-003;	*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;					*(Jip_ptr) = 9.3971594815E-004;
         rhoip_ptr = body[1].rhoip;
-        *(rhoip_ptr++) = 0;	*(rhoip_ptr++) = -0.2;	*(rhoip_ptr++) = 0;
+        *(rhoip_ptr++) = -5.410667759E-005;	*(rhoip_ptr++) = 0.125;	*(rhoip_ptr++) = -2.0091982318E-002;
         Cii_ptr = body[1].Cii;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = 1;	*(Cii_ptr++) = 0;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = 0;	*(Cii_ptr++) = 1;
-        *(Cii_ptr++) = 1;	*(Cii_ptr++) = 0;	*(Cii_ptr) = 0;
+        *(Cii_ptr++) = -0.000878023682081522;	*(Cii_ptr++) = 0.999999614537133;		*(Cii_ptr++) = -1.02068239345139e-11;
+        *(Cii_ptr++) = 5.09444816694781e-12;	*(Cii_ptr++) = 1.0211300916729e-11;		*(Cii_ptr++) = 1;
+        *(Cii_ptr++) = 0.999999614537133;		*(Cii_ptr++) = 0.000878023682081522;	*(Cii_ptr) = -5.10341196725696e-12;
         Cij_ptr = body[1].Cij;
-        *(Cij_ptr++) = 0;	*(Cij_ptr++) = -1;	*(Cij_ptr++) = 0;
         *(Cij_ptr++) = 1;	*(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;
+        *(Cij_ptr++) = 0;	*(Cij_ptr++) = 1;	*(Cij_ptr++) = 0;
         *(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;	*(Cij_ptr) = 1;
         sijp_ptr = body[1].sijp;
-        *(sijp_ptr++) = 0;	*(sijp_ptr++) = -0.4;	*(sijp_ptr++) = 0;
+        *(sijp_ptr++) = 0;	*(sijp_ptr++) = 0.25;	*(sijp_ptr++) = 0;
         body[1].K = 1500;
         goto CASE1;
-    CASE1: case 1:
+CASE1: case 1:
         // body 1 variable
         body[0].qi = 0;
-        body[0].qi_dot = 0;
-        body[0].mi = 2;
+        body[0].qi_dot = 1.745329252;
+        body[0].mi = 2.5846642779;
         Jip_ptr = body[0].Jip;
-        *(Jip_ptr++) = 1.5;	*(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 1.5;	*(Jip_ptr++) = 0;
-        *(Jip_ptr++) = 0;	*(Jip_ptr++) = 0;	*(Jip_ptr) = 1.5;
+        *(Jip_ptr++) = 6.3434854815E-003;	*(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 5.5594028536E-003;	*(Jip_ptr++) = 0;
+        *(Jip_ptr++) = 0;					*(Jip_ptr++) = 0;					*(Jip_ptr) = 3.7113051524E-003;
         rhoip_ptr = body[0].rhoip;
-        *(rhoip_ptr++) = 0.15;	*(rhoip_ptr++) = 0;	*(rhoip_ptr++) = 0;
+        *(rhoip_ptr++) = 1.6400029422E-002;	*(rhoip_ptr++) = -1.4726955847E-007;	*(rhoip_ptr++) = 6.2418368682E-002;
         Cii_ptr = body[0].Cii;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = 0;	*(Cii_ptr++) = -1;
-        *(Cii_ptr++) = 0;	*(Cii_ptr++) = 1;	*(Cii_ptr++) = 0;
-        *(Cii_ptr++) = 1;	*(Cii_ptr++) = 0;	*(Cii_ptr) = 0;
+        *(Cii_ptr++) = 2.11290316466101e-05;	*(Cii_ptr++) = -0.252301899356726;		*(Cii_ptr++) = 0.967648567990752;
+        *(Cii_ptr++) = 0.999999999358353;		*(Cii_ptr++) = 3.33235275924839e-05;	*(Cii_ptr++) = -1.31467588017185e-05;
+        *(Cii_ptr++) = -2.8928511539209e-05;	*(Cii_ptr++) = 0.967648567647641;		*(Cii_ptr++) = 0.252301899898931;
         Cij_ptr = body[0].Cij;
-        *(Cij_ptr++) = 0;	*(Cij_ptr++) = -1;	*(Cij_ptr++) = 0;
-        *(Cij_ptr++) = 1;	*(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;
-        *(Cij_ptr++) = 0;	*(Cij_ptr++) = 0;	*(Cij_ptr) = 1;
+        *(Cij_ptr++) = -5.10341196725696e-12;	*(Cij_ptr++) = 5.10341196725696e-12;	*(Cij_ptr++) = 1;
+        *(Cij_ptr++) = 1;						*(Cij_ptr++) = 2.60448137075416e-23;	*(Cij_ptr++) = 5.10341196725696e-12;
+        *(Cij_ptr++) = 0;						*(Cij_ptr++) = 1;						*(Cij_ptr++) = -5.10341196725696e-12;
         sijp_ptr = body[0].sijp;
-        *(sijp_ptr++) = 0.3;	*(sijp_ptr++) = 0;	*(sijp_ptr++) = 0;
+        *(sijp_ptr++) = -4.4E-002;	*(sijp_ptr++) = 0.0;	*(sijp_ptr++) = 7.3E-002;
         body[0].K = 1500;
     }
 
     // define Y vector
-    Y = new double[3 * num_body];
-    Yp = new double[3 * num_body];
-    Y_old = new double[3 * num_body];
-    Yp_old = new double[3 * num_body];
+    Y = new double[num_body];
+    Yp = new double[num_body];
+    Y_old = new double[num_body];
+    Yp_old = new double[num_body];
 
-    memset(Y, 0, sizeof(double) * 3 * num_body);
-    memset(Yp, 0, sizeof(double) * 3 * num_body);
-    memset(Y_old, 0, sizeof(double) * 3 * num_body);
-    memset(Yp_old, 0, sizeof(double) * 3 * num_body);
+    memset(Y, 0, sizeof(double) * num_body);
+    memset(Yp, 0, sizeof(double) * num_body);
+    memset(Y_old, 0, sizeof(double) * num_body);
+    memset(Yp_old, 0, sizeof(double) * num_body);
 
     total_time = 0;
     average_time = 0;
@@ -184,17 +188,9 @@ DOB::~DOB() {
     delete[] Yp_old;
 }
 
-void DOB::run(double *q, double *q_dot, double *tau)
+void DOB::run(double *q, double *q_dot, double *tor, int *collision_flag)
 {
     t_current = start_time;
-#if !defined(_WIN32) && !defined(_WIN64)
-    while (t_current <= end_time) {
-        QElapsedTimer timer;
-        timer.start();
-#else
-    clock_t start, end;
-    start = clock();
-#endif
     if (num_body == 1) {
         Y[0] = 0;
     }
@@ -212,7 +208,7 @@ void DOB::run(double *q, double *q_dot, double *tau)
         body[i].qi_dot = q_dot[i];
     }
     for (uint i = 0; i < num_body; i++) {
-        body[i].tau = tau[i];
+        body[i].tor = tor[i];
     }
 
     analysis();
@@ -232,6 +228,7 @@ void DOB::run(double *q, double *q_dot, double *tau)
             p_linear += pow(body[i].ric_dot[j], 2);
         }
         p_linear *= 0.5*body[i].mi;
+
         double temp[3] = { 0, };
         for (uint j = 0; j < 3; j++) {
             for (uint k = 0; k < 3; k++) {
@@ -250,33 +247,25 @@ void DOB::run(double *q, double *q_dot, double *tau)
 
     t_current += h;
 
-#if !defined(_WIN32) && !defined(_WIN64)
-    total_time += timer.elapsed();
-#else
-    end = clock();
-    total_time += (double)((end - start) / CLOCKS_PER_SEC);
-#endif
+    //    for (uint i = 0; i < num_body; i++) {
+    //        printf("P%d : %.10f[rad] ", i, q[i]);
+    //    }
+    //    for (uint i = 0; i < num_body; i++) {
+    //        printf("R : %.5f[Nm] ", body[i].r_hat);
+    //    }
+    //    printf("\n");
 
-    printf("Time : %.7f[s]", t_current);
-    for (uint i = 0; i < num_body; i++) {
-        printf("P%d : %.10f[rad] ", i, q[i]);
+    for(uint i = 0; i < num_body; i++){
+        if (body[i].PThreshold < body[i].r_hat){
+            collision_flag[i] = 1;
+        }
+        else if (body[i].NThreshold > body[i].r_hat){
+            collision_flag[i] = 1;
+        }
+        else{
+            0;
+        }
     }
-    for (uint i = 0; i < num_body; i++) {
-        printf("R : %.5f[Nm] ", body[i].r_hat);
-    }
-    printf("\n");
-#if !defined(_WIN32) && !defined(_WIN64)
-    }
-#endif
-
-//std::cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
-//std::cout.precision(7);
-//cout << endl;
-//cout << "Total Processing Time : " << total_time << " ms" << endl;
-#if !defined(_WIN32) && !defined(_WIN64)
-average_time = total_time / ((end_time - start_time) / h);
-cout << "Average Processing Time : " << average_time << " ms" << endl;
-#endif
 }
 
 void DOB::analysis() {
@@ -479,6 +468,7 @@ void DOB::generalized_mass_force() {
             body[indx].Qih_c[i] *= body[indx].mi;
             body[indx].Qih_c[i + 3] += (mi_rict_drict_wi[i] - wit_Jic_wi[i]);
         }
+
         // Velocity Coupling
         tilde(body[indx].ri_dot, body[indx].rit_dot);
         memset(body[indx].dHi, 0, sizeof(double) * 3);
@@ -541,7 +531,7 @@ void DOB::residual_analysis() {
             body[i].Tc += body[i].Bi[j] * (body[i].Li_c[j] - temp1[j]);
         }
         body[i].alpha = body[i].Tg;
-        body[i].Ta = body[i].tau;
+        body[i].Ta = body[i].tor;
         body[i].yp = body[i].Ta + body[i].alpha - body[i].r_hat;
     }
 }

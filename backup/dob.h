@@ -22,7 +22,7 @@ public:
     Body();
     ~Body();
     // base body information
-    double A0[9], C01[9], s01p[3], J0p[9], r0[3];
+    double A0[9], C01[9], s01p[3];
     // body initial data
     double qi, qi_dot, mi;
     double ri[3], ri_dot[3], wi[3], rhoip[3], sijp[3], Jip[9], Cii[9], Cij[9];
@@ -47,8 +47,7 @@ public:
     // Residual
     double Tg, Tc, alpha;
     double r_hat, K, p, Ta, Td, yp;
-    double tor;
-    double NThreshold, PThreshold;
+    double tau;
 };
 
 inline Body::Body(){
@@ -81,10 +80,7 @@ inline Body::Body(){
     Td = 0;
     yp = 0;
 
-    tor = 0;
-
-    NThreshold = -999;
-    PThreshold = 999;
+    tau = 0;
 }
 
 inline Body::~Body(){}
@@ -94,7 +90,7 @@ class DOB
 public:
     DOB(uint num_body);
     ~DOB();
-    void run(double *q, double *q_dot, double *tau, int *collision_flag);
+    void run(double *q, double *q_dot, double *tau);
     double total_time, average_time;
 private:
     uint num_body;
